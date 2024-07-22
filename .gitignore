@@ -1,0 +1,11 @@
+# Thư mục node_modules
+node_modules/
+
+# Tệp cấu hình nhạy cảm
+.env
+
+# Thư mục build
+build/
+
+# Tệp log
+*.log
