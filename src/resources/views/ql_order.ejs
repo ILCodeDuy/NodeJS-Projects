@@ -1,0 +1,188 @@
+<%- include('header_admin'); -%>
+
+<div class="row">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; min-height: 650px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+          <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+          <span class="fs-4">Admin</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li>
+            <a href="/admin" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_order" class="nav-link link-body-emphasis active">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+              Đơn Hàng
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_product" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+              Sản Phẩm
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_user" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+              Khách Hàng
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <!-- <div class="dropdown">
+          <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            <strong>mdo</strong>
+          </a>
+          <ul class="dropdown-menu text-small shadow" style="">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div> -->
+      </div>
+      <div id="content-wrapper" class="d-flex flex-column col-lg-9">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800" style="margin-top: 20px;">Đơn hàng</h1>
+                <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                    For more information about DataTables, please visit the <a target="_blank"
+                        href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+                <table class="table">
+                    <thead>
+                        <tr >
+                            <th>STT</th>
+                            <th>Mã đơn hàng</th>
+                            <th>Tổng tiền</th>
+                            <th>Ngày đặt hàng</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var i = 0; i < order.length ; i++) { %>
+                            <tr>
+                                <td><%= i+1 %></td>
+                                <td><%= order[i].ma_donhang %></td>
+                                <td><%= order[i].tong_thanhtoan %> VNĐ</td>
+                                <td><%= order[i].ngay_dat_hang %></td>
+                                <td><b style="color:#fff"><%= order[i].trangthai == 0 ? 'Chưa Xác Nhận' : order[i].trangthai == 1 ? 'Đang Xử Lý' : order[i].trangthai == 2 ? 'Vận Chuyển' : order[i].trangthai == 3 ? 'Giao Hàng Thành Công' : 'Huỷ Đơn';  %></b></td>
+                                <td>
+                                    <button class="btn btn-warning" id="openModalButton" data-toggle="modal" data-target="#modal-edit" onclick="handleEditItem(`<%= order[i].id %>`)"><i class="fa-solid fa-pen-to-square"></i>Cập nhật</button>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                  </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-edit">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 968px ; right: 186px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Hoá đơn chi tiết</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <form action="index.php?page=addProduct" method="POST"> -->
+                <div class="modal-body modal-body__edit">
+                    <table id="example" class="table table-striped" style="width:100%;">
+                        <thead>
+                            <tr>
+                              <td>Sản Phẩm</td>
+                              <td>Hình Ảnh</td>
+                              <td>Giá</td>
+                              <td>SL</td>
+                              <td colspan="2" >Tổng</td>
+                            </tr>
+                        </thead>
+                        <tbody class="list_orderDetails">
+                            <tr>
+                              <td>${item.name}</td>
+                              <td><img src="/img/items/${item.img}" alt="" width="80px"></td>
+                              <td>${Intl.NumberFormat().format(item.price)}</td>
+                              <td colspan="2">${item.quantity}</td>
+                              <td colspan="2">${Intl.NumberFormat().format(item.price*item.quantity)} VNĐ</td>
+                          </tr>
+                          <tr>
+                            <td colspan="6"><b style= "color: #29bfb5;">Mã Đơn Hàng :${orderDetails.maDonHang}</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="color:White;background-color:black;">Ngày: ${orderDetails.ngayDatHang} </td>
+                            <td colspan="4" style="color:White;background-color:black;">TỔNG : ${Intl.NumberFormat().format(orderDetails.tongtien)} VNĐ</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">Thông Tin Người Đặt Hàng :</td>
+                            <td colspan="2">Họ Tên | ${orderDetails.hoten}</td>
+                            <td colspan="2">Địa Chỉ | ${orderDetails.diachi}</td>
+                            <td colspan="3">Số Điện Thoại | ${orderDetails.sdt}</td>
+                        </tr>
+                        <td>Trạng Thái:
+                            <form name="checkStatus" action="order.js" method="post" onsubmit="return kiemTra(`${orderDetails.id}`)">
+                                <select name="new_status" class="custom-select">
+                                    <option value="0" class="status-1">Chưa Xác Nhận</option>
+                                    <option value="1" class="status-1">Đang Xử Lý</option>
+                                    <option value="2" class="status-2">Vận Chuyển</option>
+                                    <option value="3" class="status-3">Giao Hàng Thành Công</option>
+                                    <option value="4" class="status-4">Hủy Đơn</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary">Cập nhật trạng thái</button>
+                            </form>
+                        </td>
+                        </tbody>
+                    </table>
+                </div>
+            <!-- </form> -->
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+  
+    if(typeof productsDetail !== 'undefined'){
+      var myModal = new bootstrap.Modal(document.getElementById('modal-edit'));
+        myModal.show();
+      }
+
+    // document.getElementById('openModalButton').addEventListener('click', function() {
+    //     // document.getElementById('modal-default').style.display = 'block';
+    //     var myModal = new bootstrap.Modal(document.getElementById('modal-edit'));
+    //     myModal.show();
+    // });
+</script>
+
+<script>
+    // Lắng nghe sự kiện khi nút "Đóng" được nhấp
+    document.getElementById('closeModalButton').addEventListener('click', function() {
+        // Lấy modal theo ID và ẩn nó
+        var modal = new bootstrap.Modal(document.getElementById('modal-edit'));
+        modal.hide();
+    });
+
+    function handleEditItem(id){
+        window.location.href = "admin/ql_order/"+id;
+    }
+</script>

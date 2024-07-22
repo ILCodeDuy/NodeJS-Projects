@@ -1,0 +1,289 @@
+<%- include('header_admin'); -%>
+
+<div class="row">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; min-height: 650px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+          <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+          <span class="fs-4">Admin</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li>
+            <a href="/admin" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_order" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+              Đơn Hàng
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_product" class="nav-link link-body-emphasis active">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+              Sản Phẩm
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_user" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+              Khách Hàng
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <!-- <div class="dropdown">
+          <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            <strong>mdo</strong>
+          </a>
+          <ul class="dropdown-menu text-small shadow" style="">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div> -->
+      </div>
+      <div id="content-wrapper" class="d-flex flex-column col-lg-9">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800" style="margin-top: 20px;">Sản phẩm</h1>
+                <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                    For more information about DataTables, please visit the <a target="_blank"
+                        href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+                        <div class="d-flex justify-content-end">
+                            <button type="button" id="openModalButton" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modal-default">
+                                Thêm sản phẩm mới
+                            </button>
+                        </div>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Hình Ảnh</th>
+                        <th>Tên </th>
+                        <th>Giá</th>
+                        <th>Sale</th>
+                        <th>Ngày Nhập</th>
+                        <th>Thao Tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var i = 0; i < products.length ; i++) { %>
+                        <tr>
+                            <td><img src="/img/items/<%= products[i].hinh %>" alt="" width="82px"></td>
+                            <td><%= products[i].ten_sp %></td>
+                            <td><%= products[i].gia %> VNĐ</td>
+                            <td><%= products[i].giam_gia %> VNĐ</td>
+                            <td><%= products[i].ngay_nhap %></td>
+                            <td>
+                                <a href="/admin/up_product/<%= products[i].id %>" data-id="<%= products[i].id %>" class="btn btn-warning openModalEdit"><i
+                                        class="fa-solid fa-pen-to-square"></i> Sửa</a>
+                                <a href="/admin/ql_product/<%= products[i].id %>" class="btn btn-danger"><i
+                                        class="fa-solid fa-trash"></i> Xóa</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                  </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-add" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm sản phẩm</h4>
+            </div>
+            <form class="addPro" action="/admin/addProduct">
+                
+                <div class="form-group">
+                    <label for="name">Tên sản phẩm:</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Nhập tên sản phẩm">
+                </div>
+                <div class="form-group">
+                    <label for="categories">Danh mục:</label>
+                    <select class="form-select" name="categories" aria-label="Default select example">
+                        <option selected>Chọn danh mục</option>
+                        <% for (var i = 0; i < categories.length ; i++) { %>
+                            <option value="<%= categories[i].id%>"><%= categories[i].ten_loai%></option>
+                        <% } %>
+                      </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Giá gốc:</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" name="price" id="price" class="form-control" placeholder="Nhập giá gốc">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="price_sale">Giá khuyến mãi:</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" name="price_sale" id="price_sale" class="form-control"
+                            placeholder="Giá khuyến mãi">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="col-form-label">Hình ảnh</label>
+                    <input type="file" name="img" class="col-form-label" id="img">
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="col-form-label">Hình phụ 1</label>
+                    <input type="file" name="img1" class="col-form-label" id="img1">
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="col-form-label">Hình phụ 2</label>
+                    <input type="file" name="img2" class="col-form-label" id="img2">
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="col-form-label">Hình phụ 3 </label>
+                    <input type="file" name="img3" class="col-form-label" id="img3">
+                </div>
+                <div class="form-group">
+                    <label for="date">Ngày nhập hàng:</label>
+                    <input type="date" class="form-control" name="date" id="date">
+                </div>
+                <div class="form-group">
+                    <label>Mô tả sản phẩm</label>
+                    <textarea class="form-control" name="description" rows="3"
+                        placeholder="Nhập 1 đoạn mô tả về sản phẩm" style="height: 78px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="special">Đặc biệt:</label>
+                    <select class="form-select" name="special" aria-label="Default select example">
+                        <option selected>Chọn danh mục</option>
+                        <option value="1">Hot</option>
+                        <option value="2">New</option>
+                      </select>
+                </div>
+                <div class="form-group">
+                    <label for="view">Lượt xem:</label>
+                    <input type="number" class="form-control" name="view" id="view" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="product_code">Mã sản phẩm:</label>
+                    <input type="text" class="form-control" name="product_code" id="product_code" placeholder="Nhập mã sản phẩm">
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Thêm"></input>
+                </div>
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+<% if(typeof product_edit !== 'undefined') { %>
+<div class="modal fade" id="modal-edit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sửa sản phẩm</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <form action="index.php?page=addProduct" method="POST"> -->
+                <div class="modal-body modal-body__edit">
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Tên </label>
+                        <input type="text" class="form-control" name="nameEdit" placeholder="Tên sản phẩm" value="<%= product_edit.ten_sp %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Giá</label>
+                        <input type="text" class="form-control" name="priceMainEdit" placeholder="Giá sản phẩm" value="<%= product_edit.gia %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Sale</label>
+                        <input type="text" class="form-control" name="priceSaleEdit" placeholder="Giá sale" value="<%= product_edit.giam_gia %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Hình ảnh</label>
+                        <input type="file" name="imgEdit" class="col-form-label" id="" value="<%= product_edit.hinh %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Hình thêm 2</label>
+                        <input type="file" name="imgEdit2" class="col-form-label" id="" value="<%= product_edit.hinh2 %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Hình thêm 3</label>
+                        <input type="file" name="imgEdit3" class="col-form-label" id="" value="<%= product_edit.hinh3 %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Hình thêm 4</label>
+                        <input type="file" name="imgEdit4" class="col-form-label" id="" value="<%= product_edit.hinh4 %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Mô tả</label>
+                        <textarea name="descriptionEdit" id="" cols="30" rows="5" style="width:100%; border:1px #CCC solid" class="col-form-label" value="<%= product_edit.mo_ta %>"><%= product_edit.mo_ta %></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="level" class="col-form-label">Chọn danh mục:</label>
+                            <select class="form-control select2" name="levelEdit" >
+                                <option selected value="<%= product_edit.id_catalog %>">Balo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <input type="submit" class="btn btn-primary" name="edit" data-dismiss="modal" onclick="editItems(`${item.id}`)" value="Sửa">
+    
+                    <button type="button" class="btn btn-secondary" id="closeModalButton" data-dismiss="modal">Đóng</button>
+                </div>
+                
+            <!-- </form> -->
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    <% } %>
+</div>
+<script>
+    
+    document.getElementById('openModalButton').addEventListener('click', function() {
+        // document.getElementById('modal-default').style.display = 'block';
+        var myModal = new bootstrap.Modal(document.getElementById('modal-add'));
+        myModal.show();
+    });
+
+    // document.addEventListener("click", function(event) {
+    //     if (event.target.classList.contains("openModalEdit")) {
+    //         event.preventDefault();
+    //         console.log('Open modal');
+    //         var myModal = new bootstrap.Modal(document.getElementById('modal-edit'));
+    //         myModal.show();
+    //     }
+    // });
+</script>
+
+<script>
+    // Lắng nghe sự kiện khi nút "Đóng" được nhấp
+    document.getElementById('closeModalButton').addEventListener('click', function() {
+        // Lấy modal theo ID và ẩn nó
+        var modal = new bootstrap.Modal(document.getElementById('modal-add'));
+        modal.hide();
+    });
+</script>

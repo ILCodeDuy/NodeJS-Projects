@@ -1,0 +1,48 @@
+<%- include('header'); -%>
+<link rel="stylesheet" href="/css/product.css">
+<section id="product1" class="section-p1">
+    <div class="pro-container">
+        <div class="cat_menu_container">
+            <div class="cat_menu_title d-flex flex-row align-items-center justify-content-start">
+                <div class="cat_menu_text">DANH MỤC SẢN PHẨM</div>
+            </div>
+            <ul class="cat_menu">
+                <% for (var i = 0; i < 5 ; i++) { %>
+                    <li class=""><a href="/products/pdt-categories/<%= categories[i].id %>"><%= categories[i].ten_loai %><i class="fas fa-chevron-right ml-auto"></i></a></li>
+                <% } %>
+            </ul>
+        </div>
+        <% for (var i = 0; i < products.length ; i++) { %>
+            <div class="pro special">
+                <a href="/products/product_detail/<%= products[i].id %>">
+                    <img src="/img/items/<%= products[i].hinh %>" alt="" height="380px;">
+                </a>
+                <div class="des">
+                    <!-- <span class="category">PHỤ KIỆN</span>
+                    <div class="views"><i class="fas fa-eye"></i> 12</div> -->
+                    <a href="/products/<%= products[i].id %>">
+                        <h5><%= products[i].ten_sp %> </h5>
+                    </a>
+                    <div class="price">
+                        <p class="card-text text-decoration-line-through fw-bold"><%= products[i].gia %> VNĐ</p>
+                        <p class="card-text color-price fw-bold"><%= products[i].giam_gia %> VNĐ</p>
+                    </div>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <button onclick="addToCart(`<%= products[i].id %>`)" type="submit" name="cart" class="cart"><i class="fal fa-shopping-cart"></i></button>
+            </div>
+            <% } %>
+   </div>
+</section>
+
+<script>
+    function addToCart(id){
+        window.location.href = "/cart/addCart/"+id;
+    }
+</script>

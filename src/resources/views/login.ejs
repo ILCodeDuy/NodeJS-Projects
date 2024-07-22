@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+    <div class="main">
+
+        <form action="/login/slug" class="form" id="form-1">
+          <h3 class="heading">Đăng Nhập</h3>
+          <p class="desc">Bạn đã chưa có tài khoản? <a href="/register">Đăng ký</a></p>
+      
+          <div class="spacer"></div>
+      
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="text" placeholder="VD: email@domain.com" class="form-control">
+            <span class="form-message"></span>
+          </div>
+      
+          <div class="form-group">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" class="form-control">
+            <span class="form-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
+            <input id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu" type="password" class="form-control">
+            <span class="form-message"></span>
+          </div>
+          <button class="form-submit">Đăng Nhập</button>
+        </form>
+      </div>
+      <script src="/js/validation.js"></script>
+      <script>
+        Validator({
+            form: '#form-1',
+            formGroupSelector: '.form-group',
+            errorSelecter: '.form-message',
+            rules: [
+                Validator.isRequired('#fullname','Vui lòng nhập tài khoản !'),
+                Validator.isRequired('#email', 'Vui lòng nhập Email !'),
+                Validator.isRequired('#password', 'Vui lòng nhập mật khẩu !'),
+                Validator.isRequired('#password_confirmation', 'Vui lòng nhập lại mật khẩu !'),
+                Validator.isEmail('#email', 'Email không chính xác !'),
+                Validator.minLength('#password', 6),
+                Validator.confirmValue('#password_confirmation',function(){
+                    return document.querySelector('#password').value;
+                },'Mật khẩu nhập lại không chính xác')
+            ],
+            onSubmit: function(data){
+                console.log(data);
+            }
+        })
+      </script>
+</body>
+</html>

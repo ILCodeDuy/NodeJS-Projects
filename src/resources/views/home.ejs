@@ -1,0 +1,129 @@
+<%- include('header'); -%>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/img/banner/banner7.jpg" class="d-block w-100" alt="..." height="500px">
+        </div>
+        <div class="carousel-item">
+            <img src="/img/banner/banner10.jpg" class="d-block w-100" alt="..." height="500px">
+        </div>
+        <div class="carousel-item">
+            <img src="/img/banner/banner8.jpg" class="d-block w-100" alt="..." height="500px">
+        </div>
+        <div class="carousel-item">
+            <img src="/img/banner/banner9.jpg" class="d-block w-100" alt="..." height="500px">
+        </div>
+        <div class="carousel-item">
+            <img src="/img/banner/banner6.jpg" class="d-block w-100" alt="..." height="500px">
+        </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+  </div>
+    <h1 class="fw-light text-center mt-4 fw-bold">Danh Sách Sản Phẩm</h1>
+      <div class="container-fluid">
+        <div class="row">
+            <% for (var i = 0; i < 8 ; i++) { %>
+            <div class="col-3 ms-0   " >
+                <div class="card hover-zoom " style="width: 18rem;">
+                        <a href="/products/product_detail/<%= products[i].id %>"><img src="/img/items/<%= products[i].hinh %>" class="card-img-top" alt="..." height="391px"></a>
+                    <div class="card-body">
+                        <a href="/products/product_detail/<%= products[i].id %>"><h5 class="card-title"><%= products[i].ten_sp %></h5></a>
+                        <div class="price">
+                            <p class="card-text text-decoration-line-through fw-bold"><%= products[i].gia %> VNĐ</p>
+                            <p class="card-text color-price fw-bold"><%= products[i].giam_gia %> VNĐ</p>
+                        </div>
+                        <div class="star">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <button onclick="addToCart(`<%= products[i].id %>`)" name="cart" class="cart"><i class="fal fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5">
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <div class="col ">
+                <a href="/products/pdt-categories/101">
+                    <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg hover-zoom" style="background-image: url('/img/other/other1.jpg'); background-size: cover;">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Áo Khoác,</h2>
+                            <h2 class=" mb-4 display-6 lh-1 fw-bold">OUTLET GU ĐƠN GIẢN</h2>
+                            <ul class="d-flex list-unstyled mt-auto">
+                            <li class="d-flex align-items-center me-3">
+                                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                                <small>Sale 15%</small>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                                <small>3d</small>
+                            </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col ">
+                <a href="/products/pdt-categories/106">
+                    <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg hover-zoom" style="background-image: url('/img/other/other2.jpg'); background-size: cover;">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Phụ Kiện,</h2>
+                            <h2 class=" mb-4 display-6 lh-1 fw-bold">Thời Trang Sang Trọng</h2>
+                            <ul class="d-flex list-unstyled mt-auto">
+                            <li class="d-flex align-items-center me-3">
+                                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                                <small>Sale 12%</small>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                                <small>4d</small>
+                            </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col ">
+                <a href="/products/pdt-categories/103">
+                    <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg hover-zoom" style="background-image: url('/img/other/other3.jpg'); background-size: cover;">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Balo Cao Cấp,</h2>
+                            <h2 class=" mb-4 display-6 lh-1 fw-bold">Outfit Đơn Giản</h2>
+                            <ul class="d-flex list-unstyled mt-auto">
+                                <li class="d-flex align-items-center me-3">
+                                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                                <small>Sale 15%</small>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                                <small>7d</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/src/index.js"></script>
+    <script>
+        function addToCart(id){
+            window.location.href = "/cart/addCart/"+id;
+        }
+    </script>
+</body>
+
+</html>

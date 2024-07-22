@@ -1,0 +1,169 @@
+<%- include('header_admin'); -%>
+
+<div class="row">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; min-height: 650px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+          <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+          <span class="fs-4">Admin</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li>
+            <a href="/admin" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_order" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+              Đơn Hàng
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_product" class="nav-link link-body-emphasis">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+              Sản Phẩm
+            </a>
+          </li>
+          <li>
+            <a href="/admin/ql_user" class="nav-link link-body-emphasis active">
+              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+              Khách Hàng
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <!-- <div class="dropdown">
+          <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            <strong>mdo</strong>
+          </a>
+          <ul class="dropdown-menu text-small shadow" style="">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div> -->
+      </div>
+      <div id="content-wrapper" class="d-flex flex-column col-lg-9">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800" style="margin-top: 20px;">Đơn hàng</h1>
+                <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                    For more information about DataTables, please visit the <a target="_blank"
+                        href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+                <table class="table">
+                    <thead>
+                        <tr >
+                            <th>ID</th>
+                            <th>Tài khoản</th>
+                            <th>Email</th>
+                            <th>Tên Người Dùng</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var i = 0; i < user.length ; i++) { %>
+                            <tr>
+                                <td><%= user[i].id %></td>
+                                <td><%= user[i].username %></td>
+                                <td><%= user[i].email %></td>
+                                <td><%= user[i].hoten %></td>
+                                <td>
+                                    <button class="btn btn-danger" onclick ="deleteItem(`<%= user[i].id %>`)"><i class="fa-solid fa-trash"></i> Xóa</button>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                  </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-default" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm sản phẩm</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="index.php?page=addProduct" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="name" placeholder="Tên sản phẩm">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="price" placeholder="Giá sản phẩm">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="price2" placeholder="Giá củ sản phẩm">
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Hình ảnh</label>
+                        <input type="file" name="img" class="col-form-label" id="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Sản phẩm New</label>
+                        <input type="checkbox" name="chknew" id="">
+                    </div>  
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Sản phẩm Hot</label>
+                        <input type="checkbox" name="chkhot" id="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic-name" class="col-form-label">Mô tả</label>
+                        <textarea name="mota" id="" cols="30" rows="5" style="width:100%; border:1px #CCC solid" class="col-form-label"></textarea>                        
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="level" class="col-form-label">Chọn danh mục:</label>
+                            <select class="form-control select2" name="level">
+                                <option selected value="1">Dragon</option>
+                                <option value="2">Anubis</option>
+                                <option value="3">Space</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <input type="submit"  class="btn btn-primary" name="add" value="Thêm mới">
+                    <button type="button"  id="closeModalButton" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+<script>
+    document.getElementById('openModalButton').addEventListener('click', function() {
+        // document.getElementById('modal-default').style.display = 'block';
+        var myModal = new bootstrap.Modal(document.getElementById('modal-default'));
+        myModal.show();
+    });
+</script>
+
+<script>
+    // Lắng nghe sự kiện khi nút "Đóng" được nhấp
+    document.getElementById('closeModalButton').addEventListener('click', function() {
+        // Lấy modal theo ID và ẩn nó
+        var modal = new bootstrap.Modal(document.getElementById('modal-default'));
+        modal.hide();
+    });
+</script>
